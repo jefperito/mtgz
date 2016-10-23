@@ -11,12 +11,10 @@ def console():
 def print_card(card):
 	painter = ColoredManaSymbol()
 	print('{0} {1}'.format(card['name'], (painter.color(card['manaCost']) if 'manaCost' in card else '')))
-	print(card['type']+'\n')
-	if 'text' in card:
-		print(card['text'])
-	if 'power' in card:
-		print('{0}/{1}'.format(card['power'], card['toughness']))
-	#print(card.keys())
+	print('{0} {1}\n'.format(card['type'], '({0}/{1})'.format(card['power'], card['toughness']) if 'power' in card else ''))
+	print(card['text'])
+
+
 
 def main():
 	# mapped by card name
