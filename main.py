@@ -1,19 +1,19 @@
 import json
 import argparse
-from colors import ColoredManaSymbol
+from mtgz.colors import ColoredManaSymbol
 
 def console():
-	arguments_parse = argparse.ArgumentParser(description='Magic: The Gathering Parser')
+	arguments_parse = argparse.ArgumentParser(description='Magic: The Gathering Search Engine')
 	arguments_parse.add_argument('-name', metavar = '-n', nargs='*', help='look up for card name')
 
 	return arguments_parse.parse_args()
+
 
 def print_card(card):
 	painter = ColoredManaSymbol()
 	print('{0} {1}'.format(card['name'], (painter.color(card['manaCost']) if 'manaCost' in card else '')))
 	print('{0} {1}\n'.format(card['type'], '({0}/{1})'.format(card['power'], card['toughness']) if 'power' in card else ''))
 	print(card['text'])
-
 
 
 def main():
