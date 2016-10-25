@@ -19,18 +19,14 @@ def print_card(card):
 
 def main():
 	# mapped by card name
-	cursor = open('AllCards.json')
-	# 'pickle' me
-	library = json.loads(cursor.read())
-
-	search_engine = SearchEngine(json.loads(cursor.read()))
+	# TODO 'pickle' me
+	search_engine = SearchEngine(json.loads(open('AllCards.json').read()))
 	
 	arguments = console()
 
 	if arguments.name is not None:
-		card_name = ' '.join([token_name[:1].upper() + token_name[1:] for token_name in arguments.name])
-		print_card(library[card_name])
-	
+		print_card(search_engine.find_by('name', arguments.name).filter()[0])
+
 
 if __name__ == '__main__':
 	main()
