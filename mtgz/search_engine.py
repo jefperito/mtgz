@@ -24,7 +24,6 @@ class SearchEngine():
 	def filter(self):
 		filtered_cards = []
 		if self.find_by_arguments['name'] is not None:
-			card_name = ' '.join([token_name[:1].upper() + token_name[1:] for token_name in self.find_by_arguments['name']])
-			filtered_cards.append(self._library[card_name])
+			filtered_cards.append(self._library[self.find_by_arguments['name']])
 
 		return filtered_cards
