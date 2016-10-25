@@ -1,6 +1,7 @@
 import json
 import argparse
 from mtgz.colors import ColoredManaSymbol
+from mtgz.search_engine import SearchEngine
 
 def console():
 	arguments_parse = argparse.ArgumentParser(description='Magic: The Gathering Search Engine')
@@ -21,6 +22,9 @@ def main():
 	cursor = open('AllCards.json')
 	# 'pickle' me
 	library = json.loads(cursor.read())
+
+	search_engine = SearchEngine(json.loads(cursor.read()))
+	
 	arguments = console()
 
 	if arguments.name is not None:
