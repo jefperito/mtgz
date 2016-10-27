@@ -32,5 +32,26 @@ class TestSearchEngine(unittest.TestCase):
 		
 		self.assertEqual([{'name': 'Black Lotus'}], search_engine.find_by('name', 'Black Lotus').filter())
 
+	def test_filter_cards_by_part_of_name(self):
+		search_engine = SearchEngine(
+			{'Black Lotus': {
+				'name': 'Black Lotus'
+			}, 
+			'Black Vise': {
+				'name': 'Black Vise'
+			},
+			'Thraximundar': {
+				'name': 'Thraximundar'
+			},
+			'Bringer of the Black Dawn': {
+				'name': 'Bringer of the Black Dawn'
+			}
+		})
+
+		filtered_cards = search_engine.find_by('name', 'Black').filter()
+		self.assertEqual(3, len(filtered_cards))
+		for card in filtered_cards:
+			self.assertTrue(card['name'] in ['Bringer of the Black Dawn', 'Black Vise', 'Black Lotus'])
+
 if __name__ == '__main__':
 	unittest.main()
