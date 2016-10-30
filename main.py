@@ -25,8 +25,7 @@ def main():
 	arguments = console()
 
 	if arguments.name is not None:
-		name = ' '.join([token_name[:1].upper() + token_name[1:] for token_name in arguments.name])
-		print_card(search_engine.find_by('name', name).filter()[0])
+		print_card(search_engine.find_by('name', ' '.join(arguments.name)).filter()[0])
 
 
 if __name__ == '__main__':
