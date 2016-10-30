@@ -53,5 +53,14 @@ class TestSearchEngine(unittest.TestCase):
 		for card in filtered_cards:
 			self.assertTrue(card['name'] in ['Bringer of the Black Dawn', 'Black Vise', 'Black Lotus'])
 
+	def test_filter_card_no_cares_with_case_sensitive(self):
+		search_engine = SearchEngine(
+			{'Black Lotus': {
+				'name': 'Black Lotus'
+			}
+		})
+
+		self.assertEqual(1, len(search_engine.find_by('name', 'black').filter()))
+
 if __name__ == '__main__':
 	unittest.main()

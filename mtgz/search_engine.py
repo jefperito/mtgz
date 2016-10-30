@@ -24,10 +24,11 @@ class SearchEngine():
 	def filter(self):
 		filtered_cards = []
 		if self.find_by_arguments['name'] is not None:
-			if self.find_by_arguments['name'] in self._library:
-				filtered_cards.append(self._library[self.find_by_arguments['name']])
+			standardized_name = ' '.join([word[:1].upper() + word[1:].lower() for word in self.find_by_arguments['name'].split()])
+			if standardized_name in self._library:
+				filtered_cards.append(self._library[standardized_name])
 			else:
-				matched_names = [key for key in self._library.keys() if self.find_by_arguments['name'] in key]
+				matched_names = [key for key in self._library.keys() if standardized_name in key]
 				return [self._library[name] for name in matched_names]
 
 		return filtered_cards
