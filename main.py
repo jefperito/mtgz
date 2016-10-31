@@ -12,9 +12,10 @@ def console():
 
 def print_card(card):
 	painter = ColoredManaSymbol()
+	print('------------------------------------------------')
 	print('{0} {1}'.format(card['name'], (painter.color(card['manaCost']) if 'manaCost' in card else '')))
 	print('{0} {1}\n'.format(card['type'], '({0}/{1})'.format(card['power'], card['toughness']) if 'power' in card else ''))
-	print(card['text'])
+	print(card['text'] if 'text' in card else '')
 
 
 def main():
@@ -25,7 +26,9 @@ def main():
 	arguments = console()
 
 	if arguments.name is not None:
-		print_card(search_engine.find_by('name', ' '.join(arguments.name)).filter()[0])
+		filtered_cards = search_engine.find_by('name', ' '.join(arguments.name)).filter()
+		for card in filtered_cards:	print_card(card)
+		print('\n{0} cards found'.format(len(filtered_cards)))
 
 
 if __name__ == '__main__':
