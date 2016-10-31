@@ -28,9 +28,11 @@ def main():
 	filtered_cards = []
 
 	if arguments.name is not None:
-		filtered_cards = search_engine.find_by('name', ' '.join(arguments.name)).filter()
-	elif arguments.type is not None:
-		filtered_cards = search_engine.find_by('type', ' '.join(arguments.type)).filter()
+		search_engine.find_by('name', ' '.join(arguments.name))
+	if arguments.type is not None:
+		search_engine.find_by('type', ' '.join(arguments.type))
+
+	filtered_cards = search_engine.filter()	
 
 	for card in filtered_cards:	print_card(card)
 	print('\n{0} cards found'.format(len(filtered_cards)))
