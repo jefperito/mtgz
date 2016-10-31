@@ -22,11 +22,16 @@ class SearchEngine():
 		return self
 
 	def filter(self):
-		if self.find_by_arguments['name'] is not None:
+		if 'name' in self.find_by_arguments:
 			standardized_name = ' '.join([word[:1].upper() + word[1:].lower() for word in self.find_by_arguments['name'].split()])
 			if standardized_name in self._library:
 				return [self._library[standardized_name]]
 			else:
-				matched_names = [key for key in self._library.keys() if standardized_name in key]
-				return [self._library[name] for name in matched_names]
+				matched_cards = [key for key in self._library.keys() if standardized_name in key]
+				return [self._library[name] for name in matched_cards]
+		elif 'type' in self.find_by_arguments:
+			standardized_type = ' '.join([word[:1].upper() + word[1:].lower() for word in self.find_by_arguments['type'].split()])
+			matched_cards = [card_name for card_name in self._library.keys() if standardized_type in self._library[card_name]['type']]
+			return [self._library[name] for name in matched_cards]
+
 

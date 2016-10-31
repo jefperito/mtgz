@@ -56,11 +56,21 @@ class TestSearchEngine(unittest.TestCase):
 	def test_filter_card_no_cares_with_case_sensitive(self):
 		search_engine = SearchEngine(
 			{'Black Lotus': {
-				'name': 'Black Lotus'
+				'name': 'Black Lotus',
+				'type': 'Artifact'
+			},
+			'Thraximundar': {
+				'name': 'Thraximundar',
+				'type': 'Legendary Creature - Zombie Assassin',
+				'power': 7,
+				'toughness': 7
 			}
 		})
 
-		self.assertEqual(1, len(search_engine.find_by('name', 'black').filter()))
+		filtered_cards = search_engine.find_by('type', 'artifact').filter()
+		self.assertEqual(1, len(filtered_cards))
+		self.assertEqual('Black Lotus', filtered_cards[0]['name'])
+
 
 if __name__ == '__main__':
 	unittest.main()
