@@ -6,7 +6,8 @@ from mtgz.search_engine import SearchEngine
 def console():
 	arguments_parse = argparse.ArgumentParser(description='Magic: The Gathering Search Engine')
 	arguments_parse.add_argument('-name', metavar = '-n', nargs='*', help='look up for card name')
-	arguments_parse.add_argument('-type', metavar = '-t', nargs='*', help='look up for card type')
+	arguments_parse.add_argument('-type', nargs='*', help='look up for card type')
+	arguments_parse.add_argument('-text', nargs='*', help='look up for card text')
 
 	return arguments_parse.parse_args()
 
@@ -31,8 +32,10 @@ def main():
 		search_engine.find_by('name', ' '.join(arguments.name))
 	if arguments.type is not None:
 		search_engine.find_by('type', ' '.join(arguments.type))
+	if arguments.text is not None:
+		search_engine.find_by('text', ' '.join(arguments.text))
 
-	filtered_cards = search_engine.filter()	
+	filtered_cards = search_engine.filter()
 
 	for card in filtered_cards:	print_card(card)
 	print('\n{0} cards found'.format(len(filtered_cards)))

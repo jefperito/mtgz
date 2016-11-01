@@ -29,6 +29,9 @@ class SearchEngine():
 		if 'type' in self.find_by_arguments:
 			standardized_type = ' '.join([word[:1].upper() + word[1:].lower() for word in self.find_by_arguments['type'].split()])
 			filtered_cards = [card for card in filtered_cards if standardized_type in card['type']]
+		if 'text' in self.find_by_arguments:
+			filtered_cards = [card for card in filtered_cards if 'text' in card] # only cards with text
+			filtered_cards = [card for card in filtered_cards if self.find_by_arguments['text'].lower() in card['text'].lower()]
 		return filtered_cards
 
 

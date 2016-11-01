@@ -76,21 +76,48 @@ class TestSearchEngine(unittest.TestCase):
 		search_engine = SearchEngine(
 			{'Black Lotus': {
 				'name': 'Black Lotus',
-				'type': 'Artifact'
+				'type': 'Artifact',
+				'text': '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.'
 			},
 			'Black Vise': {
 				'name': 'Black Vise',
-				'type': 'Artifact'
+				'type': 'Artifact',
+				'text': 'As Black Vise enters the battlefield, choose an opponent.'
 			},
 			'Black Knight': {
 				'name': 'Black Knight',
-				'type': 'Creature - Human Knight'
+				'type': 'Creature - Human Knight',
+				'text': 'First strike\nProtection from white'
 			}
 		})
 		filtered_cards = search_engine.find_by('name', 'black').find_by('type', 'artifact').filter()
 		self.assertEqual(2, len(filtered_cards))
 		for card in filtered_cards:
 			self.assertTrue(card['name'] in ['Black Vise', 'Black Lotus'])
+
+	def test_filter_card_by_text(self):
+		search_engine = SearchEngine(
+			{'Black Lotus': {
+				'name': 'Black Lotus',
+				'type': 'Artifact',
+				'text': '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.'
+			},
+			'Black Vise': {
+				'name': 'Black Vise',
+				'type': 'Artifact',
+				'text': 'As Black Vise enters the battlefield, choose an opponent.'
+			},
+			'Black Knight': {
+				'name': 'Black Knight',
+				'type': 'Creature - Human Knight',
+				'text': 'First strike\nProtection from white'
+			}
+		})
+		filtered_cards = search_engine.find_by('text', 'black').filter()
+		self.assertEqual(2, len(filtered_cards))
+		for card in filtered_cards:
+			self.assertTrue(card['name'] in ['Black Vise', 'Black Lotus'])		
+
 
 if __name__ == '__main__':
 	unittest.main()
