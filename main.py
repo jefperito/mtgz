@@ -2,12 +2,14 @@ import json
 import argparse
 from mtgz.colors import ColoredManaSymbol
 from mtgz.search_engine import SearchEngine
+from mtgz.services import DBUploader
 
 def console():
 	arguments_parse = argparse.ArgumentParser(description='Magic: The Gathering Search Engine')
 	arguments_parse.add_argument('-name', metavar = '-n', nargs='*', help='look up for card name')
 	arguments_parse.add_argument('-type', nargs='*', help='look up for card type')
 	arguments_parse.add_argument('-text', nargs='*', help='look up for card text')
+	arguments_parse.add_argument('-upgrade', action='store_true', help='upgrade the database')
 
 	return arguments_parse.parse_args()
 
@@ -24,21 +26,23 @@ def main():
 	# mapped by card name
 	# TODO 'pickle' me
 	search_engine = SearchEngine(json.loads(open('AllCards.json').read()))
-	
 	arguments = console()
-	filtered_cards = []
+	
+	if arguments.upgrade:
+		print('Upgrading...')
+		DBUploader().upgrade()
+	else:
+		if arguments.name is not None:
+			search_engine.find_by('name', ' '.join(arguments.name))
+		if arguments.type is not None:
+			search_engine.find_by('type', ' '.join(arguments.type))
+		if arguments.text is not None:
+			search_engine.find_by('text', ' '.join(arguments.text))
 
-	if arguments.name is not None:
-		search_engine.find_by('name', ' '.join(arguments.name))
-	if arguments.type is not None:
-		search_engine.find_by('type', ' '.join(arguments.type))
-	if arguments.text is not None:
-		search_engine.find_by('text', ' '.join(arguments.text))
+		filtered_cards = search_engine.filter()
 
-	filtered_cards = search_engine.filter()
-
-	for card in filtered_cards:	print_card(card)
-	print('\n{0} cards found'.format(len(filtered_cards)))
+		for card in filtered_cards:	print_card(card)
+		print('\n{0} cards found'.format(len(filtered_cards)))
 
 
 if __name__ == '__main__':
