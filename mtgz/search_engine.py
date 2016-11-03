@@ -32,6 +32,9 @@ class SearchEngine():
 		if 'text' in self.find_by_arguments:
 			filtered_cards = [card for card in filtered_cards if 'text' in card] # only cards with text
 			filtered_cards = [card for card in filtered_cards if self.find_by_arguments['text'].lower() in card['text'].lower()]
+		if 'cmc' in self.find_by_arguments:
+			filtered_cards = [card for card in filtered_cards if 'cmc' in card] # only cards with text
+			filtered_cards = [card for card in filtered_cards if int(card['cmc']) == int(self.find_by_arguments['cmc'])]
 		return filtered_cards
 
 

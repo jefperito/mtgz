@@ -118,6 +118,31 @@ class TestSearchEngine(unittest.TestCase):
 		for card in filtered_cards:
 			self.assertTrue(card['name'] in ['Black Vise', 'Black Lotus'])		
 
+	def test_filter_card_by_cmc(self):
+		search_engine = SearchEngine(
+			{'Black Lotus': {
+				'name': 'Black Lotus',
+				'type': 'Artifact',
+				'text': '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.',
+				'cmc': '0'
+			},
+			'Black Vise': {
+				'name': 'Black Vise',
+				'type': 'Artifact',
+				'text': 'As Black Vise enters the battlefield, choose an opponent.',
+				'cmc': '2'
+			},
+			'Black Knight': {
+				'name': 'Black Knight',
+				'type': 'Creature - Human Knight',
+				'text': 'First strike\nProtection from white',
+				'cmc': '2'
+			}
+		})
+		filtered_cards = search_engine.find_by('cmc', '2').filter()
+		self.assertEqual(2, len(filtered_cards))
+		for card in filtered_cards:
+			self.assertTrue(card['name'] in ['Black Vise', 'Black Knight'])
 
 if __name__ == '__main__':
 	unittest.main()

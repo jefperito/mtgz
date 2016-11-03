@@ -6,10 +6,11 @@ from mtgz.services import DBUploader
 
 def console():
 	arguments_parse = argparse.ArgumentParser(description='Magic: The Gathering Search Engine')
-	arguments_parse.add_argument('-name', metavar = '-n', nargs='*', help='look up for card name')
-	arguments_parse.add_argument('-type', nargs='*', help='look up for card type')
-	arguments_parse.add_argument('-text', nargs='*', help='look up for card text')
-	arguments_parse.add_argument('-upgrade', action='store_true', help='upgrade the database')
+	arguments_parse.add_argument('--name', metavar = '-n', nargs='*', help='look up for card\'s name')
+	arguments_parse.add_argument('--type', nargs='*', help='look up for card\'s type')
+	arguments_parse.add_argument('--text', nargs='*', help='look up for card\'s text')
+	arguments_parse.add_argument('--cmc', nargs='?', help='look up for card\'s cmc')
+	arguments_parse.add_argument('--upgrade', action='store_true', help='upgrade the database')
 
 	return arguments_parse.parse_args()
 
@@ -23,21 +24,24 @@ def print_card(card):
 
 
 def main():
-	# mapped by card name
-	# TODO 'pickle' me
-	search_engine = SearchEngine(json.loads(open('AllCards.json').read()))
 	arguments = console()
 	
 	if arguments.upgrade:
-		print('Upgrading...')
+		print('Downloading new database...')
 		DBUploader().upgrade()
+		print('done!')
 	else:
+		# mapped by card name
+		# TODO 'pickle' me
+		search_engine = SearchEngine(json.loads(open('AllCards.json').read()))
 		if arguments.name is not None:
 			search_engine.find_by('name', ' '.join(arguments.name))
 		if arguments.type is not None:
 			search_engine.find_by('type', ' '.join(arguments.type))
 		if arguments.text is not None:
 			search_engine.find_by('text', ' '.join(arguments.text))
+		if arguments.cmc is not None:
+			search_engine.find_by('cmc', arguments.cmc)
 
 		filtered_cards = search_engine.filter()
 
