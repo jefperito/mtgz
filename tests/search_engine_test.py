@@ -144,5 +144,73 @@ class TestSearchEngine(unittest.TestCase):
 		for card in filtered_cards:
 			self.assertTrue(card['name'] in ['Black Vise', 'Black Knight'])
 
+	def test_filter_card_by_color_identity(self):
+		search_engine = SearchEngine(
+			{'Black Lotus': {
+				'name': 'Black Lotus',
+				'type': 'Artifact',
+				'text': '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.',
+				'cmc': '0'
+			},
+			'Black Vise': {
+				'name': 'Black Vise',
+				'type': 'Artifact',
+				'text': 'As Black Vise enters the battlefield, choose an opponent.',
+				'cmc': '2'
+			},
+			'Black Knight': {
+				'name': 'Black Knight',
+				'type': 'Creature - Human Knight',
+				'text': 'First strike\nProtection from white',
+				'cmc': '2',
+				'colorIdentity': ['B']
+			},
+			'Thraximundar': {
+				'name': 'Thraximundar',
+				'type': 'Legendary Creature - Zombie Assassin',
+				'text': 'Whenever Thraximundar attacks, defending player sacrifices a creature.Whenever a player sacrifices a creature, you may put a +1/+1 counter on Thraximundar.',
+				'cmc': '7',
+				'colorIdentity': ['U', 'B', 'R']
+			}
+		})
+		filtered_cards = search_engine.find_by('color', 'b').filter()
+		self.assertEqual(2, len(filtered_cards))
+		for card in filtered_cards:
+			self.assertTrue(card['name'] in ['Thraximundar', 'Black Knight'])
+
+	def test_filter_incolor_card(self):
+		search_engine = SearchEngine(
+			{'Black Lotus': {
+				'name': 'Black Lotus',
+				'type': 'Artifact',
+				'text': '{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.',
+				'cmc': '0'
+			},
+			'Black Vise': {
+				'name': 'Black Vise',
+				'type': 'Artifact',
+				'text': 'As Black Vise enters the battlefield, choose an opponent.',
+				'cmc': '2'
+			},
+			'Black Knight': {
+				'name': 'Black Knight',
+				'type': 'Creature - Human Knight',
+				'text': 'First strike\nProtection from white',
+				'cmc': '2',
+				'colorIdentity': ['B']
+			},
+			'Thraximundar': {
+				'name': 'Thraximundar',
+				'type': 'Legendary Creature - Zombie Assassin',
+				'text': 'Whenever Thraximundar attacks, defending player sacrifices a creature.Whenever a player sacrifices a creature, you may put a +1/+1 counter on Thraximundar.',
+				'cmc': '7',
+				'colorIdentity': ['U', 'B', 'R']
+			}
+		})
+		filtered_cards = search_engine.find_by('color', 'c').filter()
+		self.assertEqual(2, len(filtered_cards))
+		for card in filtered_cards:
+			self.assertTrue(card['name'] in ['Black Lotus', 'Black Vise'])
+
 if __name__ == '__main__':
 	unittest.main()
