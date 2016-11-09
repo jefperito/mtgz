@@ -1,3 +1,4 @@
+import re
 import json
 import argparse
 from mtgz.colors import ColoredManaSymbol
@@ -20,7 +21,11 @@ def print_card(card):
 	painter = ColoredManaSymbol()
 	print('{0} {1}'.format(card['name'], (painter.color(card['manaCost']) if 'manaCost' in card else '')))
 	print('{0} {1}\n'.format(card['type'], '({0}/{1})'.format(card['power'], card['toughness']) if 'power' in card else ''))
-	print(card['text'] if 'text' in card else '')
+	if 'text' in card:
+		text = card['text']
+		for manacost in re.findall('{\w}', text):
+			text = text.replace(manacost, painter.color(manacost))
+		print(text)
 	print('------------------------------------------------')
 
 
