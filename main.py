@@ -23,7 +23,7 @@ def print_card(card):
 	print('{0} {1}\n'.format(card['type'], '({0}/{1})'.format(card['power'], card['toughness']) if 'power' in card else ''))
 	if 'text' in card:
 		text = card['text']
-		for manacost in re.findall('{\w}', text):
+		for manacost in re.findall('{\w}|{\w/\w}', text):
 			text = text.replace(manacost, painter.color(manacost))
 		print(text)
 	print('------------------------------------------------')
