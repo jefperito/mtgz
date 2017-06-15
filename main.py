@@ -11,6 +11,7 @@ def console():
 	arguments_parse.add_argument('--type', nargs='*', help='look up for card\'s type')
 	arguments_parse.add_argument('--text', nargs='*', help='look up for card\'s text')
 	arguments_parse.add_argument('--cmc', nargs='?', help='look up for card\'s cmc')
+	arguments_parse.add_argument('--rarity', nargs='?', help='look up for card\'s rarity')
 	arguments_parse.add_argument('--color', nargs='?', help='look up for card\'s color identity')
 	arguments_parse.add_argument('--upgrade', action='store_true', help='upgrade the database')
 
@@ -50,6 +51,8 @@ def main():
 			search_engine.find_by('cmc', arguments.cmc)
 		if arguments.color is not None:
 			search_engine.find_by('color', arguments.color)
+		if arguments.rarity is not None:
+			search_engine.find_by('rarity', arguments.rarity)
 
 		filtered_cards = search_engine.filter()
 

@@ -9,8 +9,10 @@ class DBUploader():
 	
 	def upgrade(self):
 		data = b''
+
 		request = requests.get(self.CARDS_URL, stream=True)
-		total_length = int(request.headers.get('content-length'))
+		# total_length = int(request.headers.get('content-length'))
+		total_length = len(request.content)
 
 		for chunk in progress.bar(request.iter_content(chunk_size=1024), expected_size=(total_length/1024) + 1): 
 			data += chunk
