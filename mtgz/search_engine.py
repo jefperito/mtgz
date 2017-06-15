@@ -35,6 +35,11 @@ class SearchEngine():
 		if 'cmc' in self.find_by_arguments:
 			filtered_cards = [card for card in filtered_cards if 'cmc' in card] # only cards with cmc
 			filtered_cards = [card for card in filtered_cards if int(card['cmc']) == int(self.find_by_arguments['cmc'])]
+		if 'rarity' in self.find_by_arguments:
+			print(self.find_by_arguments['rarity'])
+			filtered_cards = [card for card in filtered_cards if 'rarity' in card] # only cards with cmc
+			filtered_cards = [card for card in filtered_cards if card['rarity'][0].lower() == self.find_by_arguments['rarity']]
+
 		if 'color' in self.find_by_arguments:
 			if self.find_by_arguments['color'].upper() == 'C': #incolor card
 				filtered_cards = [card for card in filtered_cards if 'colorIdentity' not in card]
@@ -42,5 +47,6 @@ class SearchEngine():
 				filtered_cards = [card for card in filtered_cards if 'colorIdentity' in card] # only cards with color
 				for letter in self.find_by_arguments['color'].upper():
 					filtered_cards = [card for card in filtered_cards if letter in ''.join(card['colorIdentity'])]
+
 		return filtered_cards
 
