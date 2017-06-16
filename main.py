@@ -31,33 +31,29 @@ def print_card(card):
 
 
 def main():
+	DBUploader().upgrade()
+
 	arguments = console()
-	
-	if arguments.upgrade:
-		print('Downloading new database...')
-		DBUploader().upgrade()
-		print('done!')
-	else:
-		# mapped by card name
-		# TODO 'pickle' me
-		search_engine = SearchEngine(json.loads(open('AllCards.json').read()))
-		if arguments.name is not None:
-			search_engine.find_by('name', ' '.join(arguments.name))
-		if arguments.type is not None:
-			search_engine.find_by('type', ' '.join(arguments.type))
-		if arguments.text is not None:
-			search_engine.find_by('text', ' '.join(arguments.text))
-		if arguments.cmc is not None:
-			search_engine.find_by('cmc', arguments.cmc)
-		if arguments.color is not None:
-			search_engine.find_by('color', arguments.color)
-		if arguments.rarity is not None:
-			search_engine.find_by('rarity', arguments.rarity)
+	# mapped by card name
+	# TODO 'pickle' me
+	search_engine = SearchEngine(json.loads(open('AllCards.json').read()))
+	if arguments.name is not None:
+		search_engine.find_by('name', ' '.join(arguments.name))
+	if arguments.type is not None:
+		search_engine.find_by('type', ' '.join(arguments.type))
+	if arguments.text is not None:
+		search_engine.find_by('text', ' '.join(arguments.text))
+	if arguments.cmc is not None:
+		search_engine.find_by('cmc', arguments.cmc)
+	if arguments.color is not None:
+		search_engine.find_by('color', arguments.color)
+	if arguments.rarity is not None:
+		search_engine.find_by('rarity', arguments.rarity)
 
-		filtered_cards = search_engine.filter()
+	filtered_cards = search_engine.filter()
 
-		for card in filtered_cards:	print_card(card)
-		print('\n{0} cards found'.format(len(filtered_cards)))
+	for card in filtered_cards:	print_card(card)
+	print('\n{0} cards found'.format(len(filtered_cards)))
 
 
 if __name__ == '__main__':
