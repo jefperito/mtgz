@@ -4,4 +4,5 @@
 
 # Installation
 
-* Requires Python 3.x
+* Requires Python 3.x, setuptools and pip
+* execute: pip install .
