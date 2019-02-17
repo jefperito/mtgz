@@ -13,7 +13,7 @@ def console():
 	arguments_parse.add_argument('--cmc', nargs='?', help='look up for card\'s cmc')
 	arguments_parse.add_argument('--rarity', nargs='?', help='look up for card\'s rarity')
 	arguments_parse.add_argument('--color', nargs='?', help='look up for card\'s color identity')
-	arguments_parse.add_argument('--upgrade', action='store_true', help='upgrade the database')
+	arguments_parse.add_argument('--upgrade', action='store_true', help='upgrade database')
 
 	return arguments_parse.parse_args()
 
